@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -489,8 +489,7 @@
                       <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200 mb-6">
                         <h3 className="font-semibold text-gray-900 mb-2">Your Favorite Sample:</h3>
                         <p className="text-gray-700">
-                          You enjoyed the {favoriteSample.isAI ? 'AI-generated' : 'human-written'} sample most:{' '}
-                          <span className="italic">{favoriteSample.description}</span>
+                          Your favorite was Sample {testSamples.findIndex(s => s.id === favoriteId) + 1}.
                         </p>
                       </div>
                     )}
