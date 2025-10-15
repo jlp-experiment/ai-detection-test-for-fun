@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,12 +18,6 @@
 
         const FictionDetectionTest = () => {
           const [stage, setStage] = useState('welcome');
-          const [demographics, setDemographics] = useState({
-            age: '',
-            gender: '',
-            isProfessional: '',
-            readingVolume: ''
-          });
           const [allSamples, setAllSamples] = useState([]);
           const [testSamples, setTestSamples] = useState([]);
           const [currentSampleIndex, setCurrentSampleIndex] = useState(0);
@@ -84,12 +78,6 @@
             // Convert *text* to <em>text</em> for italics
             return text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
           };
-
-          const handleDemographicChange = (field, value) => {
-            setDemographics(prev => ({ ...prev, [field]: value }));
-          };
-
-          const canStartTest = demographics.age && demographics.gender && demographics.isProfessional && demographics.readingVolume;
 
           const handleGuessChange = (guess) => {
             setCurrentResponse(prev => ({
@@ -195,133 +183,13 @@
                     </ol>
                   </div>
 
-                  <div className="border-t pt-6">
-                    <h2 className="text-xl font-semibold text-gray-900 mb-4">Before we begin:</h2>
-                    
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Age range:
-                        </label>
-                        <select
-                          value={demographics.age}
-                          onChange={(e) => handleDemographicChange('age', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        >
-                          <option value="">Select age range</option>
-                          <option value="under-18">Under 18</option>
-                          <option value="18-24">18-24</option>
-                          <option value="25-34">25-34</option>
-                          <option value="35-44">35-44</option>
-                          <option value="45-54">45-54</option>
-                          <option value="55-64">55-64</option>
-                          <option value="65+">65+</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Gender:
-                        </label>
-                        <select
-                          value={demographics.gender}
-                          onChange={(e) => handleDemographicChange('gender', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        >
-                          <option value="">Select gender</option>
-                          <option value="female">Female</option>
-                          <option value="male">Male</option>
-                          <option value="non-binary">Non-binary/Genderfluid</option>
-                          <option value="other">Other</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Are you a professional writer, editor, teacher, critic, or someone who 
-                          professionally critiques writing quality?
-                        </label>
-                        <div className="space-y-2">
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="professional"
-                              value="yes"
-                              checked={demographics.isProfessional === 'yes'}
-                              onChange={(e) => handleDemographicChange('isProfessional', e.target.value)}
-                              className="mr-2"
-                            />
-                            Yes
-                          </label>
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="professional"
-                              value="no"
-                              checked={demographics.isProfessional === 'no'}
-                              onChange={(e) => handleDemographicChange('isProfessional', e.target.value)}
-                              className="mr-2"
-                            />
-                            No
-                          </label>
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          How much fiction do you read per month? (books, comics, short stories, etc.)
-                        </label>
-                        <div className="space-y-2">
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="reading"
-                              value="0-2"
-                              checked={demographics.readingVolume === '0-2'}
-                              onChange={(e) => handleDemographicChange('readingVolume', e.target.value)}
-                              className="mr-2"
-                            />
-                            0-2 books.
-                          </label>
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="reading"
-                              value="3-5"
-                              checked={demographics.readingVolume === '3-5'}
-                              onChange={(e) => handleDemographicChange('readingVolume', e.target.value)}
-                              className="mr-2"
-                            />
-                            3-5 books.
-                          </label>
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="reading"
-                              value="6+"
-                              checked={demographics.readingVolume === '6+'}
-                              onChange={(e) => handleDemographicChange('readingVolume', e.target.value)}
-                              className="mr-2"
-                            />
-                            6+ books.
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => setStage('testing')}
-                      disabled={!canStartTest}
-                      className={`mt-6 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-md text-white font-medium ${
-                        canStartTest
-                          ? 'bg-indigo-600 hover:bg-indigo-700'
-                          : 'bg-gray-300 cursor-not-allowed'
-                      }`}
-                    >
-                      Begin Test
-                      <span>→</span>
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setStage('testing')}
+                    className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-md text-white font-medium bg-indigo-600 hover:bg-indigo-700"
+                  >
+                    Begin Test
+                    <span>→</span>
+                  </button>
                 </div>
               </div>
             );
