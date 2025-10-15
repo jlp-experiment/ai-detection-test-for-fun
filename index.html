@@ -36,6 +36,7 @@
           const [favoriteId, setFavoriteId] = useState(null);
           const [loading, setLoading] = useState(false);
           const [error, setError] = useState(null);
+          const [showDetailedResults, setShowDetailedResults] = useState(true);
           const textContainerRef = React.useRef(null);
 
           useEffect(() => {
@@ -163,6 +164,13 @@
                   <div className="flex items-center gap-3 mb-6">
                     <span className="text-4xl">📚</span>
                     <h1 className="text-3xl font-bold text-gray-900">AI vs. Human Fiction Test</h1>
+                  </div>
+                  
+                  <div className="bg-yellow-50 border-2 border-yellow-400 rounded-lg p-4 mb-4">
+                    <p className="text-yellow-900 font-semibold mb-2">⚠️ Please Take the Real Version First!</p>
+                    <p className="text-yellow-800 text-sm">
+                      For science! Please take the <a href="https://jlp-experiment.github.io/ai-detection-test/" target="_blank" rel="noopener noreferrer" className="underline font-medium hover:text-yellow-900">official research version</a> first before trying this extended version. The research version contributes to actual data collection about AI detection.
+                    </p>
                   </div>
                   
                   <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-6">
@@ -466,10 +474,61 @@
 
             const favoriteSample = testSamples.find(s => s.id === favoriteId);
 
+            // Score-only view (safe to share)
+            if (!showDetailedResults) {
+              return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 md:p-8">
+                  <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-6 md:p-8">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-2">Your Score</h2>
+                    <p className="text-xl text-gray-700 mb-8">
+                      You correctly identified {correctCount} out of {testSamples.length} samples
+                      ({Math.round((correctCount / testSamples.length) * 100)}% accuracy)
+                    </p>
+
+                    {favoriteSample && (
+                      <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200 mb-6">
+                        <h3 className="font-semibold text-gray-900 mb-2">Your Favorite Sample:</h3>
+                        <p className="text-gray-700">
+                          You enjoyed the {favoriteSample.isAI ? 'AI-generated' : 'human-written'} sample most:{' '}
+                          <span className="italic">{favoriteSample.description}</span>
+                        </p>
+                      </div>
+                    )}
+
+                    <button
+                      onClick={() => setShowDetailedResults(true)}
+                      className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-md text-white font-medium bg-indigo-600 hover:bg-indigo-700 mb-4"
+                    >
+                      View Detailed Results
+                      <span>→</span>
+                    </button>
+                    
+                    <div className="text-center text-sm text-gray-500">
+                      Thank you for taking the extended version!
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            // Detailed results view (with spoiler warning)
             return (
               <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 md:p-8">
                 <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-6 md:p-8">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">Results</h2>
+                  <div className="bg-red-50 border-2 border-red-400 rounded-lg p-4 mb-6">
+                    <p className="text-red-900 font-semibold mb-2">⚠️ Spoiler Warning - Please Don't Share!</p>
+                    <p className="text-red-800 text-sm mb-3">
+                      This page reveals which samples are AI vs. human. Please don't screenshot or share these details, as it would spoil the test for others who haven't taken the real research version yet.
+                    </p>
+                    <button
+                      onClick={() => setShowDetailedResults(false)}
+                      className="text-sm px-4 py-2 bg-red-100 hover:bg-red-200 text-red-900 rounded-md font-medium"
+                    >
+                      Hide Detailed Results (Show Score Only)
+                    </button>
+                  </div>
+
+                  <h2 className="text-3xl font-bold text-gray-900 mb-2">Detailed Results</h2>
                   <p className="text-xl text-gray-700 mb-8">
                     You correctly identified {correctCount} out of {testSamples.length} samples
                     ({Math.round((correctCount / testSamples.length) * 100)}% accuracy)
