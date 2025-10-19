@@ -340,8 +340,6 @@
               return sample && ((r.guess === 'AI' && sample.isAI) || (r.guess === 'Human' && !sample.isAI));
             }).length;
 
-            const favoriteSample = testSamples.find(s => s.id === favoriteId);
-
             // Score-only view (safe to share)
             if (!showDetailedResults) {
               return (
@@ -352,15 +350,6 @@
                       You correctly identified {correctCount} out of {testSamples.length} samples
                       ({Math.round((correctCount / testSamples.length) * 100)}% accuracy)
                     </p>
-
-                    {favoriteSample && (
-                      <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200 mb-6">
-                        <h3 className="font-semibold text-gray-900 mb-2">Your Favorite Sample:</h3>
-                        <p className="text-gray-700">
-                          Your favorite was Sample {testSamples.findIndex(s => s.id === favoriteId) + 1}.
-                        </p>
-                      </div>
-                    )}
 
                     <button
                       onClick={() => setShowDetailedResults(true)}
@@ -425,11 +414,11 @@
                             </div>
                           </div>
                           <div className="text-sm text-gray-700 mb-2">{sample.description}</div>
-                          <div className="flex gap-4 text-sm">
+                          <div className="flex flex-wrap gap-4 text-sm">
                             <div>
                               <span className="font-medium">Actually:</span>{' '}
                               <span className={sample.isAI ? 'text-purple-700' : 'text-blue-700'}>
-                                {sample.isAI ? 'AI Generated' : 'Human Written'}
+                                {sample.writingtype || (sample.isAI ? 'AI Generated' : 'Human Written')}
                               </span>
                             </div>
                             <div>
@@ -439,25 +428,10 @@
                               <span className="font-medium">Certainty:</span> {response?.certainty}/5
                             </div>
                           </div>
-                          {sample.id === favoriteId && (
-                            <div className="mt-2 text-sm font-medium text-indigo-600">
-                              ⭐ Your favorite
-                            </div>
-                          )}
                         </div>
                       );
                     })}
                   </div>
-
-                  {favoriteSample && (
-                    <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200">
-                      <h3 className="font-semibold text-gray-900 mb-2">Your Favorite Sample:</h3>
-                      <p className="text-gray-700">
-                        You enjoyed the {favoriteSample.isAI ? 'AI-generated' : 'human-written'} sample most:{' '}
-                        <span className="italic">{favoriteSample.description}</span>
-                      </p>
-                    </div>
-                  )}
                   
                   <div className="mt-6 text-center text-sm text-gray-500">
                     Thank you for taking the extended version!
